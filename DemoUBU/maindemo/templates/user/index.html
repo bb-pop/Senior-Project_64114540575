@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าหลัก</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/index.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/searchitem.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/menu-icon.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+    <script>
+        function openModal() {
+            document.getElementById("customModal").style.display = "block";
+        }
+        
+        function closeModal() {
+            document.getElementById("customModal").style.display = "none";
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var now = new Date();
+            var hours = now.getHours();
+            var isBorrowableTime = hours >= 14 && hours < 20; 
+        
+            if (!isBorrowableTime) {
+                openModal();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="customModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close" onclick="closeModal()">&times;</span>
+            <h2>!!!แจ้งเตือน!!!</h2>
+            <p>ไม่สามารถยืมได้นอกเหนือจากช่วงเวลา 14:00-19:00 น.</p>
+        </div>
+    </div>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="ค้นหาอุปกรณ์" id="searchInput">
+                <button class="search-button" onclick="searchItems()">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon"> <!-- Make sure you have a search-icon.png file -->
+                </button>
+            </div>
+        </div>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
+        <a href="/history/">ประวัติการยืม</a>
+        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
+        <a href="/logout/">ออกจากระบบ</a>
+    </div>
+    <div class="container">
+        <div class="grid">
+            {% for it in items%}
+            <div class="item-background">
+                <div>
+                    {% if it.image %}
+                        <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </div>
+                <div class="item-name">
+                    {{it.name}}
+                </div>
+                <div class="item-description">
+                    *{{it.description}}*
+                </div>
+                <div class="flex-container">
+                    {% if it.quantity > 0 %}
+                        <a href="/detail/{{ it.id }}/" class="borrow-button mb-auto">ยืม</a> 
+                    {% else %}
+                        <button class="borrow-button mb-auto out-of-stock-button" disabled>หมด</button>
+                    {% endif %}
+                    <div class="item-count">
+                        เหลือ {{it.quantity}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

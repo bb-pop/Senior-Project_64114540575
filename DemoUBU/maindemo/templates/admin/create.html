@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    <title>สร้างอุปกรณ์</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin/create.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/admin/time.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="/check-admin/">กลับสู่หน้าหลัก</a>
+            <a href="/create/">เพิ่มอุปกรณ์กีฬา</a>
+            <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+            <a href="/return-item/">ตารางยืนยันการคืน</a>
+            <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+            <a href="/dashboard/">ข้อมูลรายการยืม</a>
+            <a href="/logout/">ออกจากระบบ</a>
+        </div>
+        <div class="content">
+            <div class="container">
+                <img src="https://cdn-icons-png.flaticon.com/512/4211/4211763.png" alt="Default Image" class="item-image"/>
+                <div class="form-container">
+                    <div class="form-fields">
+                        <div class="form-header">
+                            <h1>เพิ่มอุปกรณ์กีฬา</h1>
+                        </div>
+                        <form action="/create/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token%}
+                            <div>
+                                <label>รูป </label>
+                                <input type="file" name="image"> 
+                            </div>
+                            <div>
+                                <label>ชื่อ </label>
+                                <input type="text" name="name"> 
+                            </div>
+                            <div>
+                                <label>คำบรรยาย </label>
+                                <input type="text" name="description"> 
+                            </div>
+                            <div>
+                                <label>จำนวนของ </label>
+                                <input type="number" value='0' name="quantity"> 
+                            </div>
+                            <div>
+                                <label>กำหนดเวลายืม(นาที) </label>
+                                <input type="number" value="60" name="max_borrow_time">
+                            </div>
+                            <button type="submit" class="save-button">บันทึก</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

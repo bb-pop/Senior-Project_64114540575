@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>เข้าสู่ระบบ</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/home.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            <p id="currentTime"></p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="login-box">
+            {% load socialaccount %}
+            <div class="login-title">Account UBU Login</div>
+            <a href="{% provider_login_url 'google' %}?next=/" class="login-btn">Login with Google</a>
+        </div>
+    </div>
+</body>
+</html>

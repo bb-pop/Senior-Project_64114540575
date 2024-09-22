@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    <title>ข้อมูลรายการยืม</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin/dasboard.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/admin/time.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="/check-admin/">กลับสู่หน้าหลัก</a>
+            <a href="/create/">เพิ่มอุปกรณ์กีฬา</a>
+            <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+            <a href="/return-item/">ตารางยืนยันการคืน</a>
+            <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+            <a href="/dashboard/">ข้อมูลรายการยืม</a>
+            <a href="/logout/">ออกจากระบบ</a>
+        </div>
+        <div class="content">
+            <div class="container">
+                <div class="table-container" style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <form method="get" action="{% url 'dashboard' %}">
+                        ตั้งเเต่วันที่ : {{ form.start_date }}
+                        ถึงวันที่ : {{ form.end_date }}
+                        <select name="item_id">
+                            <option value="">เลือกอุปกรณ์</option>
+                            {% for item in items %}
+                            <option value="{{ item.id }}" {% if request.GET.item_id == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="enter-button">ยืนยัน</button>
+                        <button type="submit" name="export" value="1" class="export-button">ดาวน์โหลด</button>
+                    </form>
+                    <div class="count">
+                        <div class="total_borrow">
+                            <h4>รายการยืมทั้งหมด : {{ total_borrows }} ครั้ง</h4>
+                        </div>
+                        <div class="item_borrow">
+                            <h4>อุปกรณ์ถูกยืม 3 อันดับ</h4>
+                            <ul>
+                                {% for item in top_items %}
+                                <ul>{{ item.item__name }} - {{ item.total }} ครั้ง</ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="faculty_borrow">
+                            <h4>คณะที่ยืม 3 อันดับ</h4>
+                            <ul>
+                                {% for faculty in top_faculties %}
+                                <ul>{{ faculty.borrower__faculty }} - {{ faculty.total }} ครั้ง</ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <h1 class="titlename">ข้อมูลรายการยืม</h1>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่ออุกรณ์</th>
+                            <th>จำนวน</th>
+                            <th>คณะ</th>
+                            <th>รหัสนักศึกษา</th>
+                            <th>วันที่ยืม ว/ด/ป</th>
+                            <th>เวลาที่ยืม</th>
+                            <th>วันที่ที่คืน ว/ด/ป</th>
+                            <th>เวลาที่คืน</th>
+                            <th>สถานะ</th>
+                        </tr>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ record.item.name }}</td>
+                            <td>{{ record.quantity }}</td>
+                            <td>{{ record.borrower.faculty }}</td>
+                            <td>{{ record.borrower.id_student }}</td>
+                            <td>{{ record.borrow_date|date:"d/m/y" }}</td>
+                            <td>{{ record.borrow_date|time:"H:i น." }}</td>
+                            <td>
+                                {% if record.status == 'cancel' or record.status == 'notreturn' %}
+                                    -
+                                {% else %}
+                                    {{ record.return_date|date:"d/m/y"}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if record.status == 'cancel' or record.status == 'notreturn' %}
+                                    -
+                                {% else %}
+                                    {{ record.return_date|time:"H:i น."}}
+                                {% endif %}
+                            </td>
+                            <td>{{ record.get_status_display }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="9">ไม่มีบันทึกการยืม</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

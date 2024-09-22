@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ไม่คืนอุปกรณ์</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin/noreturn-admin.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/admin/time.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/admin/searchidstudent.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-admin/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="/check-admin/">กลับสู่หน้าหลัก</a>
+            <a href="/create/">เพิ่มอุปกรณ์กีฬา</a>
+            <a href="/approve-admin/">ตารางอนุมัติการยืม</a>
+            <a href="/return-item/">ตารางยืนยันการคืน</a>
+            <a href="/noreturn-admin/">ตารางยังไม่คืนของ</a>
+            <a href="/dashboard/">ข้อมูลรายการยืม</a>
+            <a href="/logout/">ออกจากระบบ</a>
+        </div>
+        <div class="content">
+            <div class="container">
+                <div class="table-container" style="background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <h1 class="titlename">ตารางยังไม่คืนของ</h1>
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="ค้นหารหัสนักศึกษา" id="searchInput" onkeyup="enterSearch(event)">
+                            <button class="search-button" onclick="searchItems()">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zZWFyY2giPjxjaXJjbGUgY3g9IjExIiBjeT0iMTEiIHI9IjgiLz48cGF0aCBkPSJtMjEgMjEtNC4zLTQuMyIvPjwvc3ZnPg==" alt="icon">
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>รูป</th>
+                                <th>ชื่ออุกรณ์</th>
+                                <th>จำนวน</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>รหัสนักศึกษา</th>
+                                <th>วันที่ยืม</th>
+                                <th>เวลาที่ยืม</th>
+                                <th>คืนเเล้ว</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in borrow_records %}
+                                {% if record.status == 'notreturn' %}
+                                    <tr>
+                                        <td><img src="{{ record.item.image.url }}" alt="{{ record.item.name }}" class="img-thumbnail"></td>
+                                        <td>{{ record.item.name }}</td>
+                                        <td>{{ record.quantity }}</td>
+                                        <td>{{ record.borrower.first_name }} {{ record.borrower.last_name }}</td>
+                                        <td class="id-student">{{ record.borrower.id_student }}</td>
+                                        <td>{{ record.borrow_date|date:"d/m/y" }}</td>
+                                        <td>{{ record.borrow_date|date:"H:i น." }}</td>
+                                        <td>
+                                            <a href="{% url 'confirm_noreturn' record.id %}" class="btn btn-success">ยืนยันการคืน</a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8">ไม่มีรายการค้างการคืนที่ต้องคืน</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

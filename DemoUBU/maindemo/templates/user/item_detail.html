@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดอุกรณ์</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/item_detail.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/menu-icon.js' %}"></script>
+</head>
+<body>
+    
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
+        <a href="/history/">ประวัติการยืม</a>
+        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
+        <a href="/logout/">ออกจากระบบ</a>
+    </div>
+    <div class="item-detail-container">
+        <div class="item-image-container">
+            <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
+        </div>
+        <div class="item-info-container">
+            <h1 class="item-title">{{it.name}}</h1>
+            <p class="item-description">จำนวนที่เหลือ {{it.quantity}}</p>
+            <p class="item-quantity">*{{it.description}}*</p>
+            <div class="confine">
+                <span></span>
+            </div>
+            <div class="item-actions">
+                <a href="/confirm/{{it.id}}/" class="borrow-button">ยืม</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

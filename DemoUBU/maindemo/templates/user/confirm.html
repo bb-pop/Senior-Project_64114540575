@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ยืนยันการยืม</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/confirm.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/menu-icon.js' %}"></script>
+    <script>
+        const itemMaxBorrowTime = parseInt('{{ it.max_borrow_time }}', 10) * 60000;
+        
+        console.log('Max Borrow Time (from template):', '{{ item.max_borrow_time }}');
+        console.log('Max Borrow Time (parsed to int):', itemMaxBorrowTime);
+
+        function showBorrowTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var time = hours + ":" + minutes;
+            document.getElementById('borrowTime').textContent = time;
+        }
+
+        function showReturnTime() {
+            var now = new Date();
+            if (!isNaN(itemMaxBorrowTime)) {
+                var returnTime = new Date(now.getTime() + itemMaxBorrowTime);
+                var returnHours = returnTime.getHours().toString().padStart(2, '0');
+                var returnMinutes = returnTime.getMinutes().toString().padStart(2, '0');
+                document.getElementById('returnTime').textContent = returnHours + ":" + returnMinutes;
+            } else {
+                console.error('Invalid itemMaxBorrowTime:', itemMaxBorrowTime);
+                document.getElementById('returnTime').textContent = 'Invalid time';
+            }
+        }
+
+        setInterval(function() {
+            showBorrowTime();
+            showReturnTime();
+        }, 1000);
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
+        <a href="/history/">ประวัติการยืม</a>
+        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
+        <a href="/logout/">ออกจากระบบ</a>
+    </div>
+    <div class="container">
+        <div class="top-bar">
+            <h1>อุปกรณ์ที่ยืม</h1>
+        </div>
+        <form method="post" action="{% url 'confirm' it.id %}">
+            {% csrf_token %}
+            <div class="card">
+                <div class="menu-item">
+                    <img src="{{ it.image.url }}" alt="{{ it.name }}" class="item-image">
+                    <div class="item-details">
+                        <h2>{{it.name}}</h2>
+                        <div class="quantity-container">
+                            <label for="quantity">จำนวนที่ยืม:</label>
+                            <input type="number" id="quantity" name="quantity" min="1" max="1" value="1" required>
+                        </div>
+                        <div class="time-details">
+                            <p>เวลาที่ยืม: <span id="borrowTime"></span></p>
+                            <p>เวลาที่ต้องคืน: <span id="returnTime"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="order-button">ยืนยันการยืม</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: #3498db; /* ใช้ hex code สีฟ้าเข้ม */
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* ปรับให้ width และ height เป็น auto หรือค่าที่เหมาะสม */
+    width: auto;
+    height: auto;
+    /* สามารถเพิ่ม padding บางส่วนที่นี่เพื่อให้แน่ใจว่า login-box ไม่จะชิดขอบจอ */
+}
+
+.header, .lower-layer {
+z-index: 10; /* ให้มีค่าสูงกว่าองค์ประกอบอื่นๆ ที่มีการตั้ง position เป็น absolute หรือ fixed */
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: #20409A;
+    padding: 10px;
+    color: white;
+}
+
+.upper-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.lower-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff; /* สีขาวด้านล่าง */
+    padding: auto;
+    height: 65px;
+}
+
+.logo {
+    width: 35px; /* ขนาดของโลโก้ */
+    margin-right: 10px; /* ระยะห่างระหว่างโลโก้กับข้อความ */
+}
+
+.university-names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.university-name {
+    font-size: 15px; /* ขนาดตัวอักษร */
+    margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+    color: #102894; /* สีน้ำเงิน */
+}
+
+.sub-university-name {
+    font-size: 13.1px; /* ขนาดตัวอักษร */
+    margin-bottom: 5px; /* ระยะห่างระหว่างชื่อมหาวิทยาลัยกับชื่อย่อ */
+    color: #DFB612; /* สีเหลือง */
+}
+
+.login-box {
+    width: 350px;
+    padding: 50px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+.login-title {
+    font-size: 20px; /* ขนาดตัวอักษรของหัวข้อ */
+    font-weight: bold;
+    margin-bottom: 45px; /* ระยะห่างด้านล่างของหัวข้อ */
+}
+
+.login-btn {
+    text-decoration: none;
+    color: black;
+    background-color: #FFFFFF;
+    padding: 10px 30px; /* ระยะห่างของปุ่ม */
+    border-radius: 5px; /* มุมขอบ */
+
+    background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
+    background-size: 20px; /* ขนาดของรูปภาพ */
+    background-position: 10px center; /* ตำแหน่งรูปภาพ (10px จากซ้าย) */
+    background-repeat: no-repeat; /* ไม่ทำซ้ำรูปภาพ */
+    padding-left: 40px; /* ระยะห่างจากขอบซ้ายของปุ่ม */
+
+    /* เพิ่มขอบดำ */
+    border: 1px solid #000;
+    box-sizing: border-box;
+
+    /* ปรับความสูงของปุ่มเพื่อคำนวณขอบได้ถูกต้อง */
+    height: auto;
+}
+
+.user{
+    display: grid;
+    margin-left: auto;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กฎระเบียบการยืม</title>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/rules.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/menu-icon.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขหน้าโปรไฟล์</a>
+        <a href="/history/">ประวัติการยืม</a>
+        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
+        <a href="/logout/">ออกจากระบบ</a>
+    </div>
+    <div class="contact-card">
+        <div class="contact-info">
+            <h2>กฎระเบียบการยืม</h2>
+            <p> • การยืมอุปกรณ์กีฬาสามารถยืมได้ เฉพาะนักศึกษามหาวิทยาลัยอุบลราชนีเท่านั้น</p>
+            <p> • นักศึกษา 1 คน สามารถยืมอุปกรณ์ได้เพียง 1 ชิ้น เท่านั้น</p>
+            <p> • ทุกครั้งที่ยืมอุปกรณ์จะต้องนำบัตรยักศึกษา หรือบัตรอื่นๆ ที่ใช้ยืนยันตัวตนฝากไว้ทุกครั้ง</p>
+            <p> • อุปกรณ์กีฬาทุกชนิดต้องส่งคืน ไม่เกิน 20:00 น. ของวันที่ยืมอุปกรณ์</p>
+        </div>
+        <a href="/" class="contact-button" >กลับสู่หน้าหลัก</a>
+    </div>
+</body>
+</html>

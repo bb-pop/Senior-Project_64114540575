@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: #3498db;
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+}
+
+
+.header, .lower-layer {
+    z-index: 10;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: #20409A;
+    padding: 10px;
+    color: white;
+}
+
+.upper-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.lower-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: auto;
+    height: 65px;
+}
+
+.logo {
+    width: 35px;
+    margin-right: 10px;
+}
+
+.university-names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.university-name {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #102894;
+}
+
+.sub-university-name {
+    font-size: 13.1px;
+    margin-bottom: 5px;
+    color: #DFB612;
+}
+
+.login-box {
+    width: 350px;
+    padding: 50px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 45px;
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+.login-btn {
+    text-decoration: none;
+    color: black;
+    background-color: #FFFFFF;
+    padding: 10px 30px;
+    border-radius: 5px;
+    background-image: url('https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png');
+    background-size: 20px;
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    padding-left: 40px; 
+    border: 1px solid #000;
+    box-sizing: border-box;
+    height: auto;
+}
+
+.user{
+    display: grid;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        width: 25px;
+        height: 25px;
+        margin-left: 5px;
+    }
+    
+    .university-name {
+        font-size: 10.1px;
+    }
+    
+    .sub-university-name {
+        font-size: 9px;
+    }
+    
+    .user{
+        font-size: 12px;
+    }
+}

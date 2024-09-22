@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: #3498db;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-gap: 1rem;
+}
+
+.mt-8 {
+    margin-top: 2rem;
+}
+
+.header, .lower-layer {
+    z-index: 100;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: #20409A;
+    padding: 10px;
+    color: white;
+}
+
+.upper-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.lower-layer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: auto;
+    height: 65px;
+}
+
+.logo {
+    width: 35px;
+    margin-right: 10px;
+}
+
+.university-names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.university-name {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #102894;
+}
+
+.sub-university-name {
+    font-size: 13.1px;
+    margin-bottom: 5px;
+    color: #DFB612;
+}
+
+.user{
+    display: grid;
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.item-count {
+    font-size: 13px;
+    display: inline-block;
+    text-align: right;
+}
+
+.item-image {
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 10px 50px rgba(0,0,0,.2);
+}
+
+.item-description {
+    font-size: 13px;
+    color: #E02D29;
+    margin: auto;
+}
+
+.item-name {
+    font-size: large;
+    margin: auto;
+    font-weight: bold;
+}
+
+.item-background {
+    background-color: #fff;
+    padding: 0.5rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container {
+    margin: 10px; 
+    flex-grow: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search-input {
+    border: none;
+    padding: 10px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #20409A;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-input:focus,
+.search-button:focus {
+    outline: none;
+}
+
+.edit-button {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    background-color: #20409A;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    width: 70px;
+}
+
+.delete-button {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    background-color: #e3342f;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: none;
+    width: 70px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.edit-button,
+.delete-button {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.flex-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    margin-left: 15px;
+}
+
+.main-content {
+    display: flex;
+}
+
+.sidebar {
+    flex: 0 0 250px;
+    background-color: #20409A;
+    height: auto;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+.sidebar a:hover {
+    background-color: #1e3b8b;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px; 
+}

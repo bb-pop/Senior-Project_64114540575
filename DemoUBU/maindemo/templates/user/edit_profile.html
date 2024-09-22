@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าเเก้ไขโปรไฟส์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="/media/Item_images/Ubu_logo.png">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/edit_profile.css' %}">
+    <script type="text/javascript" src="{% static 'javascript/user/time.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/user/menu-icon.js' %}"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="upper-layer"></div>
+    </div>
+    <div class="lower-layer">
+        <a href="/check-cancels/" class="header-link">
+            <img src="https://www.ubu.ac.th/images/Ubu_logo.png" alt="Logo" class="logo">
+            <div class="university-names">
+                <div class="university-name">มหาวิทยาลัยอุบลราชธานี</div>
+                <div class="sub-university-name">Ubon Ratchathani University</div>
+            </div>
+        </a>
+        <div class="user">
+            {% if user.is_authenticated %}
+                {% if user.is_staff or user.is_superuser %}
+                    <p>ADMIN</p>
+                {% else %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+            {% endif %}
+            <p id="currentTime"></p>
+        </div>
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/check-cancels/">กลับไปหน้าหลัก</a>
+        <a href="{% url 'edit-profile' %}">เเก้ไขโปรไฟล์</a>
+        <a href="/history/">ประวัติการยืม</a>
+        <a href="/contact/">ติดต่อเจ้าหน้าที่</a>
+        <a href="/rules/">กฎระเบียบการยืม</a>
+        <a href="/logout/">ออกจากระบบ</a>
+    </div>
+    <div class="flex justify-center items-center h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h1 class="text-2xl font-semibold mb-6">เเก้ไขโปรไฟล์</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block mb-1">คำนำหน้า</label>
+                    <div>
+                        <select class="w-full border-2 border-gray-300 p-2 rounded" name="prefix">
+                            <option value="นาย" {% if form.instance.prefix == "นาย" %}selected{% endif %}>นาย</option>
+                            <option value="นาง" {% if form.instance.prefix == "นาง" %}selected{% endif %}>นาง</option>
+                            <option value="นางสาว" {% if form.instance.prefix == "นางสาว" %}selected{% endif %}>นางสาว</option>
+                        </select>
+                    </div>
+                    <label class="block mb-1">ชื่อ</label>
+                    <input type="text" name="first_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.first_name }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">นามสกุล</label>
+                    <input type="text" name="last_name" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.last_name }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">รหัสประจำตัวนักศึกษา</label>
+                    <input type="text" name="id_student" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.id_student }}">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">อีเมล</label>
+                    <input type="email" name="email" class="w-full border-2 border-gray-300 p-2 rounded" value="{{ form.instance.email }}">
+                </div>
+                <div class="mb-6">
+                    <label class="block mb-1">คณะ</label>
+                    <select class="w-full border-2 border-gray-300 p-2 rounded" name="faculty">
+                        <option value="คณะวิทยาศาสตร์" {% if form.instance.faculty == "คณะวิทยาศาสตร์" %}selected{% endif %}>คณะวิทยาศาสตร์</option>
+                        <option value="คณะเกษตรศาสตร์" {% if form.instance.faculty == "คณะเกษตรศาสตร์" %}selected{% endif %}>คณะเกษตรศาสตร์</option>
+                        <option value="คณะวิศวกรรมศาสตร์" {% if form.instance.faculty == "คณะวิศวกรรมศาสตร์" %}selected{% endif %}>คณะวิศวกรรมศาสตร์</option>
+                        <option value="คณะศิลปศาสตร์" {% if form.instance.faculty == "คณะศิลปศาสตร์" %}selected{% endif %}>คณะศิลปศาสตร์</option>
+                        <option value="คณะเภสัชศาสตร์" {% if form.instance.faculty == "คณะเภสัชศาสตร์" %}selected{% endif %}>คณะเภสัชศาสตร์</option>
+                        <option value="คณะบริหารศาสตร์" {% if form.instance.faculty == "คณะบริหารศาสตร์" %}selected{% endif %}>คณะบริหารศาสตร์</option>
+                        <option value="วิทยาลัยแพทยศาสตร์และการสาธารณสุข" {% if form.instance.faculty == "วิทยาลัยแพทยศาสตร์และการสาธารณสุข" %}selected{% endif %}>วิทยาลัยแพทยศาสตร์และการสาธารณสุข</option>
+                        <option value="คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์" {% if form.instance.faculty == "คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์" %}selected{% endif %}>คณะศิลปประยุกต์และสถาปัตยกรรมศาสตร์</option>
+                        <option value="คณะนิติศาสตร์" {% if form.instance.faculty == "คณะนิติศาสตร์" %}selected{% endif %}>คณะนิติศาสตร์</option>
+                        <option value="คณะรัฐศาสตร์" {% if form.instance.faculty == "คณะรัฐศาสตร์" %}selected{% endif %}>คณะรัฐศาสตร์</option>
+                        <option value="คณะพยาบาลศาสตร์" {% if form.instance.faculty == "คณะพยาบาลศาสตร์" %}selected{% endif %}>คณะพยาบาลศาสตร์</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">บันทึก</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
